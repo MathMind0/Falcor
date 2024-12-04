@@ -35,7 +35,8 @@ namespace Falcor
 {
 
 /// Global error diagnostic flags.
-static ErrorDiagnosticFlags gErrorDiagnosticFlags = ErrorDiagnosticFlags::BreakOnThrow | ErrorDiagnosticFlags::BreakOnAssert;
+//static ErrorDiagnosticFlags gErrorDiagnosticFlags = ErrorDiagnosticFlags::BreakOnThrow | ErrorDiagnosticFlags::BreakOnAssert;
+static ErrorDiagnosticFlags gErrorDiagnosticFlags = ErrorDiagnosticFlags::BreakOnAssert;
 
 void throwException(const fstd::source_location& loc, std::string_view msg)
 {
