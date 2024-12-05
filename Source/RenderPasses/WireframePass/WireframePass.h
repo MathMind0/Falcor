@@ -25,83 +25,37 @@
  # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **************************************************************************/
-#include "HelloFalcor.h"
+#pragma once
+#include "Falcor.h"
+#include "RenderGraph/RenderPass.h"
 
-FALCOR_EXPORT_D3D12_AGILITY_SDK
+using namespace Falcor;
 
-uint32_t mSampleGuiWidth = 250;
-uint32_t mSampleGuiHeight = 200;
-uint32_t mSampleGuiPositionX = 20;
-uint32_t mSampleGuiPositionY = 40;
-
-HelloFalcor::HelloFalcor(const SampleAppConfig& config) : SampleApp(config)
+class WireframePass : public RenderPass
 {
-    //
-}
+public:
+    FALCOR_PLUGIN_CLASS(WireframePass, "WireframePass", "Draw scene as wireframe.");
 
-HelloFalcor::~HelloFalcor()
-{
-    //
-}
-
-void HelloFalcor::onLoad(RenderContext* pRenderContext)
-{
-    //
-}
-
-void HelloFalcor::onShutdown()
-{
-    //
-}
-
-void HelloFalcor::onResize(uint32_t width, uint32_t height)
-{
-    //
-}
-
-void HelloFalcor::onFrameRender(RenderContext* pRenderContext, const ref<Fbo>& pTargetFbo)
-{
-    const float4 clearColor(0.38f, 0.52f, 0.10f, 1);
-    pRenderContext->clearFbo(pTargetFbo.get(), clearColor, 1.0f, 0, FboAttachmentType::All);
-}
-
-void HelloFalcor::onGuiRender(Gui* pGui)
-{
-    Gui::Window w(pGui, "Falcor", {250, 200});
-    renderGlobalUI(pGui);
-    w.text("Text Widget");
-    if (w.button("Click Here (Button Widget)"))
+    static ref<WireframePass> create(ref<Device> pDevice, const Properties& props)
     {
-        msgBox("Info", "Here is a message box.");
+        return make_ref<WireframePass>(pDevice, props);
     }
-}
 
-bool HelloFalcor::onKeyEvent(const KeyboardEvent& keyEvent)
-{
-    return false;
-}
+    WireframePass(ref<Device> pDevice, const Properties& props);
 
-bool HelloFalcor::onMouseEvent(const MouseEvent& mouseEvent)
-{
-    return false;
-}
+    virtual Properties getProperties() const override;
+    virtual RenderPassReflection reflect(const CompileData& compileData) override;
+    virtual void compile(RenderContext* pRenderContext, const CompileData& compileData) override {}
+    virtual void execute(RenderContext* pRenderContext, const RenderData& renderData) override;
+    virtual void renderUI(Gui::Widgets& widget) override;
+    virtual void setScene(RenderContext* pRenderContext, const ref<Scene>& pScene) override;
+    virtual bool onMouseEvent(const MouseEvent& mouseEvent) override { return false; }
+    virtual bool onKeyEvent(const KeyboardEvent& keyEvent) override { return false; }
 
-void HelloFalcor::onHotReload(HotReloadFlags reloaded)
-{
-    //
-}
-
-int runMain(int argc, char** argv)
-{
-    SampleAppConfig config;
-    config.windowDesc.title = "Hello, Falcor!";
-    config.windowDesc.resizableWindow = true;
-
-    HelloFalcor project(config);
-    return project.run();
-}
-
-int main(int argc, char** argv)
-{
-    return catchAndReportAllExceptions([&]() { return runMain(argc, argv); });
-}
+private:
+    ref<Scene> mpScene;
+    ref<Program> mpProgram;
+    ref<ProgramVars> mpVars;
+    ref<GraphicsState> mpGraphicsState;
+    ref<RasterizerState> mpRasterState;
+};
