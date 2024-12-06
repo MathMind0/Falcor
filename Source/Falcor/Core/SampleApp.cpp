@@ -104,6 +104,7 @@ SampleApp::SampleApp(const SampleAppConfig& config)
         resolver.addSearchPath(path);
 
     mpDevice->getProgramManager()->setGenerateDebugInfoEnabled(config.generateShaderDebugInfo);
+    mpDevice->getProgramManager()->setShaderOptimizationEnabled(!config.disableShaderOptimization);
     if (config.shaderPreciseFloat)
     {
         mpDevice->getProgramManager()->setForcedCompilerFlags(

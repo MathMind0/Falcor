@@ -603,9 +603,19 @@ void ProgramManager::setGenerateDebugInfoEnabled(bool enabled)
     mGenerateDebugInfo = enabled;
 }
 
-bool ProgramManager::isGenerateDebugInfoEnabled()
+bool ProgramManager::isGenerateDebugInfoEnabled() const
 {
     return mGenerateDebugInfo;
+}
+
+void ProgramManager::setShaderOptimizationEnabled(bool enabled)
+{
+    mShaderOptimization = enabled;
+}
+
+bool ProgramManager::isShaderOptimizationEnabled() const
+{
+    return mShaderOptimization;
 }
 
 void ProgramManager::setForcedCompilerFlags(ForcedCompilerFlags forcedCompilerFlags)
@@ -777,6 +787,10 @@ SlangCompileRequest* ProgramManager::createSlangCompileRequest(const Program& pr
     // Set debug level
     if (mGenerateDebugInfo || is_set(program.mDesc.compilerFlags, SlangCompilerFlags::GenerateDebugInfo))
         spSetDebugInfoLevel(pSlangRequest, SLANG_DEBUG_INFO_LEVEL_STANDARD);
+
+    // Set debug level
+    if (!mShaderOptimization || is_set(program.mDesc.compilerFlags, SlangCompilerFlags::DisableOptimization))
+        spSetOptimizationLevel(pSlangRequest, SLANG_OPTIMIZATION_LEVEL_NONE);
 
     // Configure any flags for the Slang compilation step
     SlangCompileFlags slangFlags = 0;

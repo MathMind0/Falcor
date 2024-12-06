@@ -70,6 +70,7 @@ struct SampleAppConfig
     bool showUI = true;     ///< Show the UI.
 
     bool generateShaderDebugInfo = false;
+    bool disableShaderOptimization = false;
     bool shaderPreciseFloat = false;
 };
 

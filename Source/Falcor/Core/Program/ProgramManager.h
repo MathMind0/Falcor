@@ -125,7 +125,19 @@ public:
      * Check if global generation of shader debug info is enabled.
      * @return Returns true if enabled.
      */
-    bool isGenerateDebugInfoEnabled();
+    bool isGenerateDebugInfoEnabled() const;
+
+    /**
+     * Enable/disable shader optimization.
+     * @param[in] enabled Enable/disable.
+     */
+    void setShaderOptimizationEnabled(bool enabled);
+
+    /**
+     * Check if shader optimization is enabled.
+     * @return Returns true if enabled.
+     */
+    bool isShaderOptimizationEnabled() const;
 
     /**
      * Sets compiler flags that will always be forced on and forced off on each program.
@@ -141,7 +153,7 @@ public:
      */
     ForcedCompilerFlags getForcedCompilerFlags();
 
-    const CompilationStats& getCompilationStats() { return mCompilationStats; }
+    const CompilationStats& getCompilationStats() const { return mCompilationStats; }
     void resetCompilationStats() { mCompilationStats = {}; }
 
 private:
@@ -155,6 +167,7 @@ private:
     DefineList mGlobalDefineList;
     std::vector<std::string> mGlobalCompilerArguments;
     bool mGenerateDebugInfo = false;
+    bool mShaderOptimization = true;
     ForcedCompilerFlags mForcedCompilerFlags;
 
     mutable uint32_t mHitGroupID = 0;

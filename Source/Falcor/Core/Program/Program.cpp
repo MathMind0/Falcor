@@ -405,6 +405,7 @@ FALCOR_SCRIPT_BINDING(Program)
     slangCompilerFlags.value("FloatingPointModePrecise", SlangCompilerFlags::FloatingPointModePrecise);
     slangCompilerFlags.value("GenerateDebugInfo", SlangCompilerFlags::GenerateDebugInfo);
     slangCompilerFlags.value("MatrixLayoutColumnMajor", SlangCompilerFlags::MatrixLayoutColumnMajor);
+    slangCompilerFlags.value("DisableOptimization", SlangCompilerFlags::DisableOptimization);
     ScriptBindings::addEnumBinaryOperators(slangCompilerFlags);
 
     pybind11::class_<ProgramDesc> programDesc(m, "ProgramDesc");

@@ -142,6 +142,7 @@ enum class SlangCompilerFlags
     FloatingPointModePrecise = 0x8,
     GenerateDebugInfo = 0x10,
     MatrixLayoutColumnMajor = 0x20, // Falcor is using row-major, use this only to compile stand-alone external shaders.
+    DisableOptimization = 0x40,
 };
 FALCOR_ENUM_CLASS_OPERATORS(SlangCompilerFlags);
 

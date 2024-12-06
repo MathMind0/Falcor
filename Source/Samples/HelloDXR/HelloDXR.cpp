@@ -35,7 +35,8 @@ static const float4 kClearColor(0.38f, 0.52f, 0.10f, 1);
 //static const std::string kDefaultScene = "Arcade/Arcade.pyscene";
 //static const std::string kDefaultScene = "Bistro/BistroExterior.pyscene";
 //static const std::string kDefaultScene = "Bistro/BistroInterior_Wine.pyscene";
-static const std::string kDefaultScene = "SunTemple/SunTemple.pyscene";
+//static const std::string kDefaultScene = "SunTemple/SunTemple.pyscene";
+static const std::string kDefaultScene = "test_scenes/bunny.pyscene";
 
 HelloDXR::HelloDXR(const SampleAppConfig& config) : SampleApp(config) {}
 
@@ -64,7 +65,8 @@ void HelloDXR::onResize(uint32_t width, uint32_t height)
     }
 
     mpRtOut = getDevice()->createTexture2D(
-        width, height, ResourceFormat::RGBA16Float, 1, 1, nullptr, ResourceBindFlags::UnorderedAccess | ResourceBindFlags::ShaderResource
+        width, height, ResourceFormat::RGBA16Float, 1, 1, nullptr,
+        ResourceBindFlags::UnorderedAccess | ResourceBindFlags::ShaderResource
     );
 }
 
@@ -153,6 +155,7 @@ void HelloDXR::loadScene(const std::filesystem::path& path, const Fbo* pTargetFb
     rasterProgDesc.addShaderModules(shaderModules);
     rasterProgDesc.addShaderLibrary("Samples/HelloDXR/HelloDXR.3d.slang").vsEntry("vsMain").psEntry("psMain");
     rasterProgDesc.addTypeConformances(typeConformances);
+    //rasterProgDesc.compilerFlags |= SlangCompilerFlags::GenerateDebugInfo;
 
     mpRasterPass = RasterPass::create(getDevice(), rasterProgDesc, defines);
 
@@ -171,6 +174,7 @@ void HelloDXR::loadScene(const std::filesystem::path& path, const Fbo* pTargetFb
     rtProgDesc.addShaderModules(shaderModules);
     rtProgDesc.addShaderLibrary("Samples/HelloDXR/HelloDXR.rt.slang");
     rtProgDesc.addTypeConformances(typeConformances);
+    //rtProgDesc.compilerFlags |= SlangCompilerFlags::GenerateDebugInfo;
     rtProgDesc.setMaxTraceRecursionDepth(3); // 1 for calling TraceRay from RayGen, 1 for calling it from the
                                              // primary-ray ClosestHit shader for reflections, 1 for reflection ray
                                              // tracing a shadow ray
@@ -228,6 +232,8 @@ int runMain(int argc, char** argv)
     SampleAppConfig config;
     config.windowDesc.title = "HelloDXR";
     config.windowDesc.resizableWindow = true;
+    config.generateShaderDebugInfo = true;
+    config .disableShaderOptimization = true;
 
     HelloDXR helloDXR(config);
     return helloDXR.run();
