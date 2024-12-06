@@ -31,7 +31,7 @@
 
 FALCOR_EXPORT_D3D12_AGILITY_SDK
 
-static const float4 kClearColor(0.38f, 0.52f, 0.10f, 1);
+static const float4 kClearColor(0.1f, 0.1f, 0.1f, 1);
 //static const std::string kDefaultScene = "Arcade/Arcade.pyscene";
 //static const std::string kDefaultScene = "Bistro/BistroExterior.pyscene";
 //static const std::string kDefaultScene = "Bistro/BistroInterior_Wine.pyscene";

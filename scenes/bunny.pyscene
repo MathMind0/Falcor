@@ -27,16 +27,23 @@
 ###########################################################################
 
 # Create materials
-floor = Material('Floor')
+floor = StandardMaterial('Floor')
 floor.baseColor = float4(0.7, 0.7, 0.7, 1.0)
 floor.roughness = 0.5
 
-box = Material('Box')
+box = StandardMaterial('Box')
 box.baseColor = float4(0.5, 0.5, 0.5, 1.0)
 box.roughness = 0.1
 
+sky = StandardMaterial('Sky')
+sky.baseColor = float4(0, 0, 0, 1)
+sky.emissiveColor = float3(1, 1, 1)
+#sky.loadTexture(MaterialTextureSlot.Emissive, 'test_scenes/envmaps/20050806-03_hd.hdr')
+
+
 # Create geometry
 quadMesh = TriangleMesh.createQuad()
+sphereMesh = TriangleMesh.createSphere()
 
 bunnyMesh = TriangleMesh.createFromFile('test_scenes/meshes/bunny_dense.obj')
 
@@ -44,6 +51,11 @@ bunnyMesh = TriangleMesh.createFromFile('test_scenes/meshes/bunny_dense.obj')
 sceneBuilder.addMeshInstance(
     sceneBuilder.addTriangleMesh(quadMesh, floor),
     sceneBuilder.addNode('Floor', Transform(scaling=float3(10, 1, 10)))
+)
+
+sceneBuilder.addMeshInstance(
+    sceneBuilder.addTriangleMesh(sphereMesh, sky),
+    sceneBuilder.addNode('Sky', Transform(scaling=float3(10, 10, 10)))
 )
 
 sceneBuilder.addMeshInstance(
@@ -56,11 +68,16 @@ sceneBuilder.addMeshInstance(
 sceneBuilder.envMap = EnvMap('test_scenes/envmaps/20050806-03_hd.hdr')
 
 # Add lights
-light0 = DirectionalLight('Light0')
-light0.direction = float3(1, -1, -1)
-light0.intensity = float3(5, 5, 5)
+#light0 = DirectionalLight('Light0')
+#light0.direction = float3(1, -1, -1)
+#light0.intensity = float3(5, 5, 5)
 #light0.angle = 0.1
-sceneBuilder.addLight(light0)
+#sceneBuilder.addLight(light0)
+
+light1 = PointLight('Light1')
+light1.position = float3(0, 100, 0)
+light1.intensity = float3(5, 5, 5)
+sceneBuilder.addLight(light1)
 
 # Create camera
 camera = Camera()
