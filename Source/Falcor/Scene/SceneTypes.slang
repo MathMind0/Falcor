@@ -137,6 +137,11 @@ struct GeometryInstanceData
         return (flags & (uint)GeometryInstanceFlags::IsDynamic) != 0;
     }
 
+    bool isObjectFrontFaceCW() CONST_FUNCTION
+    {
+        return (flags & (uint)GeometryInstanceFlags::IsObjectFrontFaceCW) != 0;
+    }
+
     bool isWorldFrontFaceCW() CONST_FUNCTION
     {
         return (flags & (uint)GeometryInstanceFlags::IsWorldFrontFaceCW) != 0;

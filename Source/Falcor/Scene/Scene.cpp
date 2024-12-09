@@ -2741,7 +2741,9 @@ namespace Falcor
                 draw.StartInstanceLocation = instanceID++;
 
                 int i = use16Bit ? 0 : 1;
-                (instance.isWorldFrontFaceCW()) ? drawClockwiseMeshes[i].push_back(draw) : drawCounterClockwiseMeshes[i].push_back(draw);
+                //[TJJ Mod] Should set winding based on mesh winding instead of combination of transform winding.
+                //(instance.isWorldFrontFaceCW()) ? drawClockwiseMeshes[i].push_back(draw) : drawCounterClockwiseMeshes[i].push_back(draw);
+                (instance.isObjectFrontFaceCW()) ? drawClockwiseMeshes[i].push_back(draw) : drawCounterClockwiseMeshes[i].push_back(draw);
             }
 
             createDrawBuffer(drawClockwiseMeshes[0], false, ResourceFormat::R16Uint);

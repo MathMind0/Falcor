@@ -1688,8 +1688,9 @@ namespace Falcor
             }
 
             // Flip triangle winding flag if the transform flips the coordinate system handedness (negative determinant).
-            bool flippedWinding = determinant(float3x3(transform)) < 0.f;
-            if (flippedWinding) mesh.isFrontFaceCW = !mesh.isFrontFaceCW;
+            //[TJJ DEL] The following pre-transform will invert the winding, so no need to do another inverse.
+            //bool flippedWinding = determinant(float3x3(transform)) < 0.f;
+            //if (flippedWinding) mesh.isFrontFaceCW = !mesh.isFrontFaceCW;
 
             // Transform vertices to world space if not already identity transform.
             if (transform != float4x4::identity())
