@@ -49,18 +49,20 @@ bunnyMesh = TriangleMesh.createFromFile('test_scenes/meshes/bunny_dense.obj')
 
 # Create mesh instances
 sceneBuilder.addMeshInstance(
-    sceneBuilder.addTriangleMesh(quadMesh, floor),
-    sceneBuilder.addNode('Floor', Transform(scaling=float3(10, 1, 10)))
+    sceneBuilder.addNode('Floor', Transform(scaling=float3(10, 1, 10))),
+    sceneBuilder.addTriangleMesh(quadMesh, floor)
 )
 
-#sceneBuilder.addMeshInstance(
-#    sceneBuilder.addTriangleMesh(sphereMesh, sky),
-#    sceneBuilder.addNode('Sky', Transform(scaling=float3(10, 10, 10)))
-#)
+sceneBuilder.addMeshInstance(
+    sceneBuilder.addNode('Sky', Transform(scaling=float3(5, 5, 5), translation=float3(0, 0, 0))),
+    sceneBuilder.addTriangleMesh(sphereMesh, sky)
+)
 
 sceneBuilder.addMeshInstance(
-    sceneBuilder.addTriangleMesh(bunnyMesh, box),
-    sceneBuilder.addNode('Bunny', Transform(scaling=float3(0.4, 0.4, 0.4), translation=float3(0.1, 0.1, -0.5), rotationEulerDeg=float3(0, 20, 0)))
+    sceneBuilder.addNode('Bunny', Transform(scaling=float3(0.4, 0.4, 0.4),
+        translation=float3(0.1, 0.1, -0.5),
+        rotationEulerDeg=float3(0, 20, 0))),
+    sceneBuilder.addTriangleMesh(bunnyMesh, box)
 )
 
 
@@ -68,16 +70,16 @@ sceneBuilder.addMeshInstance(
 sceneBuilder.envMap = EnvMap('test_scenes/envmaps/20050806-03_hd.hdr')
 
 # Add lights
-#light0 = DirectionalLight('Light0')
-#light0.direction = float3(1, -1, -1)
-#light0.intensity = float3(5, 5, 5)
+light0 = DirectionalLight('Light0')
+light0.direction = float3(1, -1, -1)
+light0.intensity = float3(5, 5, 5)
 #light0.angle = 0.1
-#sceneBuilder.addLight(light0)
+sceneBuilder.addLight(light0)
 
-light1 = PointLight('Light1')
-light1.position = float3(0, 100, 0)
-light1.intensity = float3(5, 5, 5)
-sceneBuilder.addLight(light1)
+#light1 = PointLight('Light1')
+#light1.position = float3(0, 100, 0)
+#light1.intensity = float3(5, 5, 5)
+#sceneBuilder.addLight(light1)
 
 # Create camera
 camera = Camera()
