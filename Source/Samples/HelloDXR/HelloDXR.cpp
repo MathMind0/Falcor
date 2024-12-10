@@ -26,6 +26,8 @@
  # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **************************************************************************/
 #include "HelloDXR.h"
+
+#include "Scene/SceneBuilder.h"
 #include "Utils/Math/FalcorMath.h"
 #include "Utils/UI/TextRenderer.h"
 
@@ -36,7 +38,8 @@ static const float4 kClearColor(0.1f, 0.1f, 0.1f, 1);
 //static const std::string kDefaultScene = "Bistro/BistroExterior.pyscene";
 //static const std::string kDefaultScene = "Bistro/BistroInterior_Wine.pyscene";
 //static const std::string kDefaultScene = "SunTemple/SunTemple.pyscene";
-static const std::string kDefaultScene = "../scenes/bunny.pyscene";
+//static const std::string kDefaultScene = "../scenes/bunny.pyscene";
+static const std::string kDefaultScene = "../scenes/spaceship.pyscene";
 
 HelloDXR::HelloDXR(const SampleAppConfig& config) : SampleApp(config) {}
 
@@ -130,7 +133,12 @@ bool HelloDXR::onMouseEvent(const MouseEvent& mouseEvent)
 
 void HelloDXR::loadScene(const std::filesystem::path& path, const Fbo* pTargetFbo)
 {
-    mpScene = Scene::create(getDevice(), path);
+    //mpScene = Scene::create(getDevice(), path);
+    mpScene = SceneBuilder(getDevice(),
+        path, getSettings(),
+        SceneBuilder::Flags::UseMetalRoughMaterials)
+    .getScene();
+
     mpCamera = mpScene->getCamera();
 
     // Update the controllers
