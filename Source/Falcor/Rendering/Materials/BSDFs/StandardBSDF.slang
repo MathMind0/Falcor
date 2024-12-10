@@ -172,13 +172,13 @@ struct StandardBSDF : IBSDF, IDifferentiable
         float specularWeight = luminance(evalFresnelSchlick(data.specular, 1.f, wi.z));
 
         pDiffuseReflection =
-            (activeLobes & (uint)LobeType::DiffuseReflection) ? detach(diffuseWeight * dielectricBSDF * (1.f - diffTrans)) : 0.f;
+            bool(activeLobes & (uint)LobeType::DiffuseReflection) ? detach(diffuseWeight * dielectricBSDF * (1.f - diffTrans)) : 0.f;
         pDiffuseTransmission =
-            (activeLobes & (uint)LobeType::DiffuseTransmission) ? detach(diffuseWeight * dielectricBSDF * diffTrans) : 0.f;
-        pSpecularReflection = (activeLobes & ((uint)LobeType::SpecularReflection | (uint)LobeType::DeltaReflection))
+            bool(activeLobes & (uint)LobeType::DiffuseTransmission) ? detach(diffuseWeight * dielectricBSDF * diffTrans) : 0.f;
+        pSpecularReflection = bool(activeLobes & ((uint)LobeType::SpecularReflection | (uint)LobeType::DeltaReflection))
                                   ? detach(specularWeight * (metallicBRDF + dielectricBSDF))
                                   : 0.f;
-        pSpecularTransmission = (activeLobes & ((uint)LobeType::SpecularReflection | (uint)LobeType::DeltaReflection |
+        pSpecularTransmission = bool(activeLobes & ((uint)LobeType::SpecularReflection | (uint)LobeType::DeltaReflection |
                                                 (uint)LobeType::SpecularTransmission | (uint)LobeType::DeltaTransmission))
                                     ? detach(specularBSDF)
                                     : 0.f;

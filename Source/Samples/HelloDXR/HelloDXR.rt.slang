@@ -171,12 +171,12 @@ void rayGen()
     RayDesc ray;
     if (!useDOF)
     {
-        ray = gScene.camera.computeRayPinhole(launchIndex.xy, viewportDims).toRayDesc();
+        ray = gScene.camera.computeRayPinhole(launchIndex.xy, asuint(viewportDims)).toRayDesc();
     }
     else
     {
         float2 u = sampleNext2D(sg);
-        ray = gScene.camera.computeRayThinlens(launchIndex.xy, viewportDims, u).toRayDesc();
+        ray = gScene.camera.computeRayThinlens(launchIndex.xy, asuint(viewportDims), u).toRayDesc();
     }
 
     PrimaryRayData hitData;
