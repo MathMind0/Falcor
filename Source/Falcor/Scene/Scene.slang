@@ -401,8 +401,7 @@ struct Scene
         triangleArea = 0.5f * length(N);
 
         // Flip the normal depending on final winding order in world space.
-        // [TJJ DEL] Don't swap the normal because transform already invert it.
-        //if (isWorldFrontFaceCW(instanceID)) N = -N;
+        if (isWorldFrontFaceCW(instanceID)) N = -N;
 
         return normalize(N);
     }

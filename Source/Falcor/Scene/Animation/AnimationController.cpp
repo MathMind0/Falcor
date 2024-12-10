@@ -322,6 +322,10 @@ namespace Falcor
             }
 
             mInvTransposeGlobalMatrices[i] = transpose(inverse(mGlobalMatrices[i]));
+            if (math::determinant(mGlobalMatrices[i]) < 0.f)
+            {
+                mInvTransposeGlobalMatrices[i] = mInvTransposeGlobalMatrices[i] * (-1.f);
+            }
 
             if (mpSkinningPass)
             {

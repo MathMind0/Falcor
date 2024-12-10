@@ -30,24 +30,27 @@
 floor = StandardMaterial('Floor')
 floor.baseColor = float4(0.7, 0.7, 0.7, 1.0)
 floor.roughness = 0.5
+#floor.emissiveColor = float3(0.3, 0.3, 0.3)
 
 box = StandardMaterial('Box')
 box.baseColor = float4(0.5, 0.5, 0.5, 1.0)
-box.roughness = 0.1
+box.roughness = 0.2
 
 sky = StandardMaterial('Sky')
 sky.baseColor = float4(0, 0, 0, 1)
-sky.emissiveColor = float3(1, 1, 1)
+sky.emissiveColor = float3(0.3, 0.2, 0.8)
 #sky.loadTexture(MaterialTextureSlot.Emissive, 'test_scenes/envmaps/20050806-03_hd.hdr')
 
 
 # Create geometry
 quadMesh = TriangleMesh.createQuad()
 sphereMesh = TriangleMesh.createSphere()
+boxMesh = TriangleMesh.createCube()
 
 bunnyMesh = TriangleMesh.createFromFile('test_scenes/meshes/bunny_dense.obj')
 
 sphereMeshID = sceneBuilder.addTriangleMesh(sphereMesh, sky)
+boxMeshID = sceneBuilder.addTriangleMesh(boxMesh, sky)
 
 # Create mesh instances
 sceneBuilder.addMeshInstance(
@@ -56,14 +59,24 @@ sceneBuilder.addMeshInstance(
 )
 
 sceneBuilder.addMeshInstance(
-    sceneBuilder.addNode('Sky', Transform(scaling=float3(5, -5, 5), translation=float3(0, 0, 0))),
+    sceneBuilder.addNode('Sky', Transform(scaling=float3(-5, -5, -5), translation=float3(0, 0, 0))),
     sphereMeshID
 )
 
-sceneBuilder.addMeshInstance(
-    sceneBuilder.addNode('Sphere', Transform(scaling=float3(1, 1, 1), translation=float3(1, 0, 0))),
-    sphereMeshID
-)
+#sceneBuilder.addMeshInstance(
+#    sceneBuilder.addNode('Sphere', Transform(scaling=float3(1, 1, 1), translation=float3(1, 0, 0))),
+#    sphereMeshID
+#)
+
+#sceneBuilder.addMeshInstance(
+#    sceneBuilder.addNode('Box', Transform(scaling=float3(1, 1, 1), translation=float3(0, 0, 0))),
+#    boxMeshID
+#)
+
+#sceneBuilder.addMeshInstance(
+#    sceneBuilder.addNode('SkyBox', Transform(scaling=float3(-10, -10, -10), translation=float3(0, 0, 0))),
+#    boxMeshID
+#)
 
 sceneBuilder.addMeshInstance(
     sceneBuilder.addNode('Bunny', Transform(scaling=float3(0.4, 0.4, 0.4),
@@ -72,9 +85,8 @@ sceneBuilder.addMeshInstance(
     sceneBuilder.addTriangleMesh(bunnyMesh, box)
 )
 
-
 # Create env map
-sceneBuilder.envMap = EnvMap('test_scenes/envmaps/20050806-03_hd.hdr')
+#sceneBuilder.envMap = EnvMap('test_scenes/envmaps/20050806-03_hd.hdr')
 
 # Add lights
 light0 = DirectionalLight('Light0')

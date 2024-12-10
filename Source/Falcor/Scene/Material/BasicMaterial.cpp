@@ -650,7 +650,7 @@ namespace Falcor
         bool isEmissive = false;
         if (mData.emissiveFactor > 0.f)
         {
-            isEmissive = hasTextureSlotData(Material::TextureSlot::Emissive) || any(mData.emissive != float3(0.f));
+            isEmissive = hasTextureSlotData(Material::TextureSlot::Emissive) || any(mData.emissive != float16_t3(0.f));
         }
         if (mHeader.isEmissive() != isEmissive)
         {

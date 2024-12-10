@@ -54,7 +54,7 @@ struct BasicMaterialData
     float16_t4  baseColor               = float16_t4(1.h);  ///< Material base color (RGB) and opacity (A).
     float16_t4  specular                = float16_t4(0.h);  ///< Material specular channel encoding occlusion (R), roughness (G), metallic (B) in the default MetalRough mode. In SpecGloss mode specular color (RGB) and glossiness (A).
 
-    float3      emissive                = float3(0.f);      ///< Emissive color (RGB).
+    float16_t3  emissive                = float16_t3(0.f);  ///< Emissive color (RGB).
     float16_t   specularTransmission    = 0.h;              ///< Specular transmission. Range [0,1].
     float16_t3  transmission            = float16_t3(1.h);  ///< Transmission color.
     float16_t   diffuseTransmission     = 0.h;              ///< Diffuse transmission. Range [0,1].

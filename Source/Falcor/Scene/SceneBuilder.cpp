@@ -1700,11 +1700,15 @@ namespace Falcor
 
                 float3x3 invTranspose3x3 = float3x3(transpose(inverse(transform)));
                 float3x3 transform3x3 = float3x3(transform);
+                //[TJJ ADD] Inverse normal for matrix with winding inverse.
+                float det = math::determinant(invTranspose3x3);
 
                 for (auto& v : mesh.staticData)
                 {
                     v.position = transformPoint(transform, v.position);
-                    v.normal = normalize(transformVector(invTranspose3x3, v.normal));
+                    //[TJJ MOD] Inverse normal for matrix with winding inverse.
+                    //v.normal = normalize(transformVector(invTranspose3x3, v.normal));
+                    v.normal = normalize(transformVector(invTranspose3x3, v.normal) * det);
                     v.tangent = float4(normalize(transformVector(transform3x3, v.tangent.xyz())), v.tangent.w);
                     // TODO: We should flip the sign of v.tangent.w if flippedWinding is true.
                     // Leaving that out for now for consistency with the shader code that needs the same fix.

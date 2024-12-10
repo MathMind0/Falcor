@@ -183,7 +183,7 @@ namespace Falcor
 
     void StandardMaterial::setEmissiveColor(const float3& color)
     {
-        if (any(mData.emissive != color))
+        if (any((float3)mData.emissive != color))
         {
             mData.emissive = color;
             markUpdates(UpdateFlags::DataChanged | UpdateFlags::EmissiveChanged);
