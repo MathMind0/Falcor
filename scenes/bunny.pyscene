@@ -28,9 +28,10 @@
 
 # Create materials
 floor = StandardMaterial('Floor')
-floor.baseColor = float4(0.7, 0.7, 0.7, 1.0)
-floor.roughness = 0.5
-#floor.emissiveColor = float3(0.3, 0.3, 0.3)
+floor.loadTexture(MaterialTextureSlot.BaseColor, 'test_scenes/textures/checker_tile_base_color.png')
+floor.loadTexture(MaterialTextureSlot.Specular, 'test_scenes/textures/checker_tile_specular.png')
+floor.loadTexture(MaterialTextureSlot.Normal, 'test_scenes/textures/checker_tile_normal.png')
+floor.textureTransform = Transform(scaling=float3(0.1, 0.1, 1))
 
 box = StandardMaterial('Box')
 box.baseColor = float4(0.5, 0.5, 0.5, 1.0)
@@ -38,7 +39,7 @@ box.roughness = 0.2
 
 sky = StandardMaterial('Sky')
 sky.baseColor = float4(0, 0, 0, 1)
-sky.emissiveColor = float3(0.3, 0.2, 0.8)
+sky.emissiveColor = float3(0.1, 0.1, 0.8)
 #sky.loadTexture(MaterialTextureSlot.Emissive, 'test_scenes/envmaps/20050806-03_hd.hdr')
 
 
@@ -54,12 +55,12 @@ boxMeshID = sceneBuilder.addTriangleMesh(boxMesh, sky)
 
 # Create mesh instances
 sceneBuilder.addMeshInstance(
-    sceneBuilder.addNode('Floor', Transform(scaling=float3(10, 1, 10))),
+    sceneBuilder.addNode('Floor', Transform(scaling=float3(100, 1, 100))),
     sceneBuilder.addTriangleMesh(quadMesh, floor)
 )
 
 sceneBuilder.addMeshInstance(
-    sceneBuilder.addNode('Sky', Transform(scaling=float3(-5, -5, -5), translation=float3(0, 0, 0))),
+    sceneBuilder.addNode('Sky', Transform(scaling=float3(1000, -1000, 1000), translation=float3(0, 0, 0))),
     sphereMeshID
 )
 
@@ -79,8 +80,8 @@ sceneBuilder.addMeshInstance(
 #)
 
 sceneBuilder.addMeshInstance(
-    sceneBuilder.addNode('Bunny', Transform(scaling=float3(0.4, 0.4, 0.4),
-        translation=float3(0.1, 0.1, -0.5),
+    sceneBuilder.addNode('Bunny', Transform(scaling=float3(1, 1, 1),
+        translation=float3(0, 0.5, 0),
         rotationEulerDeg=float3(0, 20, 0))),
     sceneBuilder.addTriangleMesh(bunnyMesh, box)
 )
@@ -102,9 +103,8 @@ sceneBuilder.addLight(light0)
 
 # Create camera
 camera = Camera()
-camera.position = float3(0, 0.6, 1.375)
-camera.target = float3(0, 0.5, 0)
+camera.position = float3(0, 5, 10)
+camera.target = float3(0, 0, 0)
 camera.up = float3(0, 1, 0)
 sceneBuilder.addCamera(camera)
-
 
