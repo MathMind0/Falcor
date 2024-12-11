@@ -32,7 +32,12 @@ import Utils.Math.MathHelpers;
 */
 struct EnvMap
 {
+//[TJJ MOD] Support using cubemap as Env Map.
+#if ENVMAP_USE_CUBEMAP
+    TextureCube   envMap;
+#else
     Texture2D       envMap;         ///< Environment map texture.
+#endif
     SamplerState    envSampler;     ///< Environment map texture sampler.
 
     EnvMapData      data;           ///< Environment map data.
@@ -50,21 +55,34 @@ struct EnvMap
     */
     float3 evalTexel(uint2 coord)
     {
+#if ENVMAP_USE_CUBEMAP
+        return 0.f;
+#else
         return envMap[coord].rgb * getIntensity();
+#endif
     }
 
     /** Evaluates the radiance at a given uv coordinate.
     */
     float3 eval(float2 uv, float lod = 0.f)
     {
+#if ENVMAP_USE_CUBEMAP
+        return 0.f;
+#else
         return envMap.SampleLevel(envSampler, uv, lod).rgb * getIntensity();
+#endif
     }
 
     /** Evaluates the radiance coming from world space direction 'dir'.
     */
     float3 eval(float3 dir, float lod = 0.f)
     {
+    //[TJJ MOD] Support using cubemap as Env Map.
+#if ENVMAP_USE_CUBEMAP
+        return envMap.SampleLevel(envSampler, dir, lod).rgb;
+#else
         return eval(worldToUv(dir), lod);
+#endif
     }
 
     /** Transform direction in local space to uv coordinates.

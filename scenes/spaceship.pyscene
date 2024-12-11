@@ -67,6 +67,14 @@ sceneBuilder.addMeshInstance(
     sphereMeshID
 )
 
+sceneBuilder.addMeshInstance(
+    sceneBuilder.addNode('Sphere',
+        Transform(
+            scaling=float3(1, 1, 1),
+            translation=float3(5, 1, 0))),
+    sceneBuilder.addTriangleMesh(sphereMesh, floor)
+)
+
 # Create env map
 sceneBuilder.envMap = EnvMap('test_images/cubemap/sorsele3/sorsele3.dds')
 

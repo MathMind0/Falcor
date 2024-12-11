@@ -95,6 +95,13 @@ namespace Falcor
         */
         float3 getTint() const { return mData.tint; }
 
+        //[TJJ MOD] Support using cubemap as Env Map.
+        bool isCubeMap() const
+        {
+            return mpEnvMap ?
+                (mpEnvMap->getType() == Resource::Type::TextureCube) : false;
+        }
+
         /** Get the file path of the environment map texture.
         */
         const std::filesystem::path& getPath() const { return mpEnvMap->getSourcePath(); }
