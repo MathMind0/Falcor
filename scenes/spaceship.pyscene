@@ -42,6 +42,7 @@ floor.roughness = 0.1
 sky = StandardMaterial('Sky')
 sky.baseColor = float4(0, 0, 0, 1)
 sky.emissiveColor = float3(0.1, 0.1, 0.8)
+sky.roughness = 0
 #sky.loadTexture(MaterialTextureSlot.Emissive, 'test_scenes/envmaps/20050806-03_hd.hdr')
 
 
@@ -67,7 +68,7 @@ sceneBuilder.addMeshInstance(
 )
 
 # Create env map
-#sceneBuilder.envMap = EnvMap('test_scenes/envmaps/20050806-03_hd.hdr')
+sceneBuilder.envMap = EnvMap('test_images/cubemap/sorsele3/sorsele3.dds')
 
 # Add lights
 light0 = DirectionalLight('Light0')

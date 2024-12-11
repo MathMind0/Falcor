@@ -454,7 +454,8 @@ ref<ViewClass> findViewCommon(
     uint32_t resMipCount = 1;
     uint32_t resArraySize = 1;
 
-    resArraySize = pTexture->getArraySize();
+    //resArraySize = pTexture->getArraySize();
+    resArraySize = pTexture->getArraySize() * (pTexture->getType() == Resource::Type::TextureCube ? 6 : 1);
     resMipCount = pTexture->getMipCount();
 
     if (firstArraySlice >= resArraySize)
