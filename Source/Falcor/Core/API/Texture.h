@@ -134,7 +134,12 @@ public:
     /**
      * Get the array size
      */
-    uint32_t getArraySize() const { return mArraySize; }
+    //[TJJ MOD] Handle array size checking for cubemap.
+    //uint32_t getArraySize() const { return mArraySize; }
+    uint32_t getArraySize() const {
+        return (getType() == Resource::Type::TextureCube) ?
+            mArraySize * 6 : mArraySize;
+    }
 
     /**
      * Get the array index of a subresource
@@ -154,7 +159,9 @@ public:
     /**
      * Get the number of subresources
      */
-    uint32_t getSubresourceCount() const { return mMipLevels * mArraySize; }
+    //[TJJ MOD] Handle array size checking for cubemap
+    //uint32_t getSubresourceCount() const { return mMipLevels * mArraySize; }
+    uint32_t getSubresourceCount() const { return mMipLevels * getArraySize(); }
 
     /**
      * Get the resource format

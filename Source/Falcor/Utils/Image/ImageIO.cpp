@@ -577,7 +577,9 @@ Bitmap::UniqueConstPtr ImageIO::loadBitmapFromDDS(const std::filesystem::path& p
     return Bitmap::create(data.width, data.height, data.format, data.imageData.data());
 }
 
-ref<Texture> ImageIO::loadTextureFromDDS(ref<Device> pDevice, const std::filesystem::path& path, bool loadAsSrgb)
+//[TJJ MOD] Support auto-generate mipmaps.
+//ref<Texture> ImageIO::loadTextureFromDDS(ref<Device> pDevice, const std::filesystem::path& path, bool loadAsSrgb)
+ref<Texture> ImageIO::loadTextureFromDDS(ref<Device> pDevice, const std::filesystem::path& path, bool loadAsSrgb, bool generateMips)
 {
     ImportData data;
     try
@@ -588,6 +590,12 @@ ref<Texture> ImageIO::loadTextureFromDDS(ref<Device> pDevice, const std::filesys
     {
         logWarning("Failed to load DDS image from '{}': {}", path, e.what());
         return nullptr;
+    }
+
+    //[TJJ MOD] Support auto-generate mipmaps.
+    if (generateMips)
+    {
+        data.mipLevels = Texture::kMaxPossible;
     }
 
     ref<Texture> pTex;

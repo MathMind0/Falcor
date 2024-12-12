@@ -26,7 +26,6 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ###########################################################################
 
-sceneBuilder.cameraSpeed = 10
 sceneBuilder.importScene('../scenes/spaceship/spaceship.obj')
 #spaceship = sceneBuilder.getMaterial('matSpaceship')
 #spaceship.loadTexture(MaterialTextureSlot.BaseColor, '../scenes/spaceship/spaceship_color.jpg')
@@ -37,7 +36,7 @@ floor.loadTexture(MaterialTextureSlot.BaseColor, 'test_scenes/textures/checker_t
 floor.loadTexture(MaterialTextureSlot.Specular, 'test_scenes/textures/checker_tile_specular.png')
 floor.loadTexture(MaterialTextureSlot.Normal, 'test_scenes/textures/checker_tile_normal.png')
 floor.textureTransform = Transform(scaling=float3(0.1, 0.1, 1))
-floor.roughness = 0.1
+floor.roughness = 0.5
 
 sky = StandardMaterial('Sky')
 sky.baseColor = float4(0, 0, 0, 1)
@@ -96,5 +95,6 @@ camera.position = float3(0, 5, 10)
 camera.target = float3(0, 0, 0)
 camera.up = float3(0, 1, 0)
 sceneBuilder.addCamera(camera)
+sceneBuilder.cameraSpeed = 10
 
 

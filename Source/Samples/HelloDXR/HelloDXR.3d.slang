@@ -47,12 +47,12 @@ float4 psMain(VSOut vsOut, uint triangleIndex: SV_PrimitiveID) : SV_TARGET
     let mi = gScene.materials.getMaterialInstance(sd, lod);
 
     float3 color = 0.f;
-    //color += mi.getProperties(sd).emission;
+    color += mi.getProperties(sd).emission;
 
     TinyUniformSampleGenerator sg = TinyUniformSampleGenerator(asuint(vsOut.posH.xy), 0);
 
     float3 reflectDir = normalize(2.0 * vsOut.normalW - viewDir);
-    color += gScene.envMap.eval(reflectDir, 0.f);
+    color += gScene.envMap.eval(reflectDir, 8.f);
     //color += gScene.envMap.eval(reflectDir, mi.getProperties(sd).roughness * 8.f);
                 //* mi.eval(sd, reflectDir, sg);
 

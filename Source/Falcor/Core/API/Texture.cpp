@@ -131,7 +131,9 @@ Texture::Texture(
         mMipLevels = bitScanReverse(dims) + 1;
     }
 
-    mState.perSubresource.resize(mMipLevels * mArraySize, mState.global);
+    //[TJJ MOD] Handle array size checking for cubemap
+    //mState.perSubresource.resize(mMipLevels * mArraySize, mState.global);
+    mState.perSubresource.resize(getSubresourceCount(), mState.global);
 
     ResourceBindFlags supported = mpDevice->getFormatBindFlags(mFormat);
     supported |= ResourceBindFlags::Shared;
@@ -163,7 +165,10 @@ Texture::Texture(
     desc.size.height = align_to(getFormatHeightCompressionRatio(mFormat), mHeight);
     desc.size.depth = mDepth;
 
-    desc.arraySize = mType == Texture::Type::TextureCube ? mArraySize * 6 : mArraySize;
+    //[TJJ MOD] slang takes care of the multiplication for cubemap, so here just set the raw number.
+    //desc.arraySize = mType == Texture::Type::TextureCube ? mArraySize * 6 : mArraySize;
+    desc.arraySize = mArraySize;
+
     desc.numMipLevels = mMipLevels;
 
     desc.format = getGFXFormat(mFormat); // lookup can result in Unknown / unsupported format
@@ -381,7 +386,9 @@ ref<Texture> Texture::createFromFile(
     {
         try
         {
-            pTex = ImageIO::loadTextureFromDDS(pDevice, path, loadAsSrgb);
+            //[TJJ MOD] Support auto-generate mipmaps.
+            //pTex = ImageIO::loadTextureFromDDS(pDevice, path, loadAsSrgb);
+            pTex = ImageIO::loadTextureFromDDS(pDevice, path, loadAsSrgb, true);
         }
         catch (const std::exception& e)
         {
@@ -415,6 +422,12 @@ ref<Texture> Texture::createFromFile(
     {
         pTex->setSourcePath(path);
         pTex->mImportFlags = importFlags;
+
+        //[TJJ MOD] Support auto-generate mipmaps.
+        if (generateMipLevels)
+        {
+            pTex->generateMips(pDevice->getRenderContext());
+        }
 
         // Log debug info.
         std::string str = fmt::format(
@@ -670,15 +683,21 @@ void Texture::uploadInitData(RenderContext* pRenderContext, const void* pData, b
 
 void Texture::generateMips(RenderContext* pContext, bool minMaxMips)
 {
-    if (mType != Type::Texture2D)
+    //[TJJ MOD] Support cubemap.
+    //if (mType != Type::Texture2D)
+    if (mType != Type::Texture2D && mType != Type::TextureCube)
     {
-        logWarning("Texture::generateMips() was only tested with Texture2Ds");
+        //logWarning("Texture::generateMips() was only tested with Texture2Ds");
+        logWarning("Texture::generateMips() was only tested with Texture2Ds and TextureCubes");
     }
 
     // #OPTME: should blit support arrays?
     for (uint32_t m = 0; m < mMipLevels - 1; m++)
     {
-        for (uint32_t a = 0; a < mArraySize; a++)
+        //[TJJ MOD] Support cubemap.
+        //for (uint32_t a = 0; a < mArraySize; a++)
+        uint32_t numFaces = (mType == Texture::Type::TextureCube) ? 6 : 1;
+        for (uint32_t a = 0; a < mArraySize * numFaces; a++)
         {
             auto srv = getSRV(m, 1, a, 1);
             auto rtv = getRTV(m + 1, a, 1);
@@ -701,7 +720,9 @@ void Texture::generateMips(RenderContext* pContext, bool minMaxMips)
                     float4(0.0f, 0.0f, 0.0f, 1.0f),
                 };
                 pContext->blit(
-                    srv, rtv, RenderContext::kMaxRect, RenderContext::kMaxRect, TextureFilteringMode::Linear, redModes, componentsTransform
+                    srv, rtv,
+                    RenderContext::kMaxRect, RenderContext::kMaxRect, TextureFilteringMode::Linear,
+                    redModes, componentsTransform
                 );
             }
         }

@@ -88,7 +88,9 @@ public:
      * changed.
      * @return Texture object containing image data if loading was successful. Otherwise, nullptr.
      */
-    static ref<Texture> loadTextureFromDDS(ref<Device> pDevice, const std::filesystem::path& path, bool loadAsSrgb);
+    //[TJJ MOD] Support auto-generate mipmaps.
+    static ref<Texture> loadTextureFromDDS(ref<Device> pDevice, const std::filesystem::path& path, bool loadAsSrgb, bool generateMips = false);
+    //static ref<Texture> loadTextureFromDDS(ref<Device> pDevice, const std::filesystem::path& path, bool loadAsSrgb);
 
     /**
      * Saves a bitmap to a DDS file.
