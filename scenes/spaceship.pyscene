@@ -27,8 +27,6 @@
 ###########################################################################
 
 sceneBuilder.importScene('../scenes/spaceship/spaceship.obj')
-#spaceship = sceneBuilder.getMaterial('matSpaceship')
-#spaceship.loadTexture(MaterialTextureSlot.BaseColor, '../scenes/spaceship/spaceship_color.jpg')
 
 # Create materials
 floor = StandardMaterial('Floor')
@@ -76,6 +74,7 @@ sceneBuilder.addMeshInstance(
 
 # Create env map
 sceneBuilder.envMap = EnvMap('test_images/cubemap/sorsele3/sorsele3.dds')
+#sceneBuilder.envMap = EnvMap('test_scenes/envmaps/20050806-03_hd.hdr')
 
 # Add lights
 light0 = DirectionalLight('Light0')
@@ -94,6 +93,8 @@ camera = Camera()
 camera.position = float3(0, 5, 10)
 camera.target = float3(0, 0, 0)
 camera.up = float3(0, 1, 0)
+camera.nearPlane = 0.1
+camera.farPlane = 5000
 sceneBuilder.addCamera(camera)
 sceneBuilder.cameraSpeed = 10
 

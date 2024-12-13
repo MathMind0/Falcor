@@ -423,12 +423,6 @@ ref<Texture> Texture::createFromFile(
         pTex->setSourcePath(path);
         pTex->mImportFlags = importFlags;
 
-        //[TJJ MOD] Support auto-generate mipmaps.
-        if (generateMipLevels)
-        {
-            pTex->generateMips(pDevice->getRenderContext());
-        }
-
         // Log debug info.
         std::string str = fmt::format(
             "Loaded texture: size={}x{} mips={} format={} path={}",

@@ -88,9 +88,9 @@ float4 psMain(float2 texC: TEXCOORD) : SV_TARGET
 #endif
 #else // !COMPLEX_BLIT
 #if SRC_INT
-    uint4 res = asuint(gTex.Sample(gSampler, texC));
+    uint4 res = asuint(gTex.SampleLevel(gSampler, texC, 0.f));
 #else
-    float4 res = gTex.Sample(gSampler, texC);
+    float4 res = gTex.SampleLevel(gSampler, texC, 0.f);
 #endif
     return res;
 #endif
