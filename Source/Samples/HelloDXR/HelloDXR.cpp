@@ -219,6 +219,8 @@ void HelloDXR::renderRaster(RenderContext* pRenderContext, const ref<Fbo>& pTarg
     FALCOR_ASSERT(mpScene);
     FALCOR_PROFILE(pRenderContext, "renderRaster");
 
+    mpScene->getEnvMap()->getEnvMap()->generateMips(pRenderContext);
+
     mpRasterPass->getState()->setFbo(pTargetFbo);
     mpScene->rasterize(pRenderContext, mpRasterPass->getState().get(), mpRasterPass->getVars().get());
 }
@@ -241,7 +243,7 @@ int runMain(int argc, char** argv)
     config.windowDesc.title = "HelloDXR";
     config.windowDesc.resizableWindow = true;
     config.generateShaderDebugInfo = true;
-    config .disableShaderOptimization = true;
+    config.disableShaderOptimization = true;
 
     HelloDXR helloDXR(config);
     return helloDXR.run();

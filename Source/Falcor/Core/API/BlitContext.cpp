@@ -46,6 +46,9 @@ BlitContext::BlitContext(Device* pDevice)
     };
     ProgramDesc d;
     d.addShaderLibrary("Core/API/BlitReduction.3d.slang").vsEntry("vsMain").psEntry("psMain");
+    //[TJJ ADD] Enable debug info and disable opt temporarily.
+    d.compilerFlags |= (SlangCompilerFlags::GenerateDebugInfo | SlangCompilerFlags::DisableOptimization);
+
     pPass = FullScreenPass::create(ref<Device>(pDevice), d, defines);
     pPass->breakStrongReferenceToDevice();
     pFbo = Fbo::create(ref<Device>(pDevice));
