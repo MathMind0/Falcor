@@ -52,16 +52,16 @@ float4 psMain(VSOut vsOut, uint triangleIndex: SV_PrimitiveID) : SV_TARGET
     TinyUniformSampleGenerator sg = TinyUniformSampleGenerator(asuint(vsOut.posH.xy), 0);
 
     float3 reflectDir = normalize(2.0 * vsOut.normalW - viewDir);
-    color += gScene.envMap.eval(reflectDir, 1.f);
-    //color += gScene.envMap.eval(reflectDir, mi.getProperties(sd).roughness * 8.f);
-                //* mi.eval(sd, reflectDir, sg);
+    //color += gScene.envMap.eval(reflectDir, 1.f);
+    color += gScene.envMap.eval(reflectDir, mi.getProperties(sd).roughness * 8.f)
+                * mi.eval(sd, reflectDir, sg);
 
     // Direct lighting from analytic light sources
     for (int i = 0; i < gScene.getLightCount(); i++)
     {
         AnalyticLightSample ls;
         evalLightApproximate(sd.posW, gScene.getLight(i), ls);
-        //color += mi.eval(sd, ls.dir, sg) * ls.Li;
+        color += mi.eval(sd, ls.dir, sg) * ls.Li;
     }
 
     return float4(color, 1.f);
