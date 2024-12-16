@@ -688,10 +688,7 @@ void Texture::generateMips(RenderContext* pContext, bool minMaxMips)
     // #OPTME: should blit support arrays?
     for (uint32_t m = 0; m < mMipLevels - 1; m++)
     {
-        //[TJJ MOD] Support cubemap.
-        //for (uint32_t a = 0; a < mArraySize; a++)
-        uint32_t numFaces = (mType == Texture::Type::TextureCube) ? 6 : 1;
-        for (uint32_t a = 0; a < mArraySize * numFaces; a++)
+        for (uint32_t a = 0; a < mArraySize; a++)
         {
             auto srv = getSRV(m, 1, a, 1);
             auto rtv = getRTV(m + 1, a, 1);

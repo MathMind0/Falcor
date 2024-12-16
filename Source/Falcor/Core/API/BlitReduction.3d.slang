@@ -35,11 +35,20 @@ cbuffer BlitParamsCB
     float4 gCompTransformA;
 }
 
-#if SAMPLE_COUNT <= 1
-Texture2D<float4> gTex;
-#else
-Texture2DMS<float4> gTex;
-#endif
+//[TJJ MOD] Support blit for cubemap
+#if CUBEMAP
+    #if SAMPLE_COUNT <= 1
+        TextureCube<float4> gTex;
+    #else // SAMPLE_COUNT > 1
+        #error Cubemap blit not supported for multisample format
+    #endif // SAMPLE_COUNT
+#else // !CUBEMAP
+    #if SAMPLE_COUNT <= 1
+        Texture2D<float4> gTex;
+    #else // SAMPLE_COUNT > 1
+        Texture2DMS<float4> gTex;
+    #endif // SAMPLE_COUNT
+#endif // CUBEMAP
 
 SamplerState gSampler;
 SamplerState gSamplerR;
@@ -61,63 +70,92 @@ VsOut vsMain(float4 posS: POSITION, float2 texC: TEXCOORD)
     return vOut;
 }
 
-#if DST_INT
-uint4 psMain(float2 texC: TEXCOORD) : SV_TARGET
-#else
-float4 psMain(float2 texC: TEXCOORD) : SV_TARGET
-#endif
+//[TJJ MOD] Support blit for cubemap
+#if CUBEMAP
+    void psMain(float2 texC: TEXCOORD,
+        out float4 face0 : SV_TARGET0,
+        out float4 face1 : SV_TARGET1,
+        out float4 face2 : SV_TARGET2,
+        out float4 face3 : SV_TARGET3,
+        out float4 face4 : SV_TARGET4,
+        out float4 face5 : SV_TARGET5)
+#else // !CUBEMAP
+    #if DST_INT
+        uint4 psMain(float2 texC: TEXCOORD) : SV_TARGET
+    #else // !DST_INT
+        float4 psMain(float2 texC: TEXCOORD) : SV_TARGET
+    #endif // DST_INT
+#endif // CUBEMAP
 {
-#if SAMPLE_COUNT <= 1
+//[TJJ MOD] Support blit for cubemap
+#if CUBEMAP
+    #if SAMPLE_COUNT <= 1
+        #if COMPLEX_BLIT
+            #error Complex blit not supported for cubemap
+        #else // !COMPLEX_BLIT
+            #if SRC_INT
+                #error Cubemap blit not supported for integer format
+            #else
+                face0 = gTex.SampleLevel(gSampler, float3(texC, 0.f), 0.f);
+                face1 = gTex.SampleLevel(gSampler, float3(texC, 1.f), 0.f);
+                face2 = gTex.SampleLevel(gSampler, float3(texC, 2.f), 0.f);
+                face3 = gTex.SampleLevel(gSampler, float3(texC, 3.f), 0.f);
+                face4 = gTex.SampleLevel(gSampler, float3(texC, 4.f), 0.f);
+                face5 = gTex.SampleLevel(gSampler, float3(texC, 5.f), 0.f);
+            #endif
+        #endif
+    #else // SAMPLE_COUNT > 1
+        #error Cubemap blit not supported for multisample format
+    #endif
+#else // !CUBEMAP
+    #if SAMPLE_COUNT <= 1
+        #if COMPLEX_BLIT
+        #if SRC_INT
+        #error Complex blit not supported for integer source format
+        #else
+            float4 srcR = gTex.Sample(gSamplerR, texC);
+            float4 srcG = gTex.Sample(gSamplerG, texC);
+            float4 srcB = gTex.Sample(gSamplerB, texC);
+            float4 srcA = gTex.Sample(gSamplerA, texC);
 
-#if COMPLEX_BLIT
-#if SRC_INT
-#error Complex blit not supported for integer source format
-#else
-    float4 srcR = gTex.Sample(gSamplerR, texC);
-    float4 srcG = gTex.Sample(gSamplerG, texC);
-    float4 srcB = gTex.Sample(gSamplerB, texC);
-    float4 srcA = gTex.Sample(gSamplerA, texC);
+            float4 res;
+            res.r = dot(gCompTransformR, srcR);
+            res.g = dot(gCompTransformG, srcG);
+            res.b = dot(gCompTransformB, srcB);
+            res.a = dot(gCompTransformA, srcA);
 
-    float4 res;
-    res.r = dot(gCompTransformR, srcR);
-    res.g = dot(gCompTransformG, srcG);
-    res.b = dot(gCompTransformB, srcB);
-    res.a = dot(gCompTransformA, srcA);
+            return res;
+        #endif
+        #else // !COMPLEX_BLIT
+        #if SRC_INT
+            uint4 res = asuint(gTex.SampleLevel(gSampler, texC, 0.f));
+        #else
+            float4 res = gTex.SampleLevel(gSampler, texC, 0.f);
+        #endif
+            return res;
+        #endif
+    #else // SAMPLE_COUNT > 1
+        #if COMPLEX_BLIT
+            #error Complex blit not supported for sample count > 1
+        #else // !COMPLEX_BLIT
+            #if SRC_INT
+                #error Blit for sample count > 1 not supported for integer source format
+            #else // !SRC_INT
+                uint3 dims;
+                gTex.GetDimensions(dims.x, dims.y, dims.z);
+                uint2 crd = (uint2)(float2(dims.xy) * texC);
+                float4 c = float4(0, 0, 0, 0);
 
-    return res;
-#endif
-#else // !COMPLEX_BLIT
-#if SRC_INT
-    uint4 res = asuint(gTex.SampleLevel(gSampler, texC, 0.f));
-#else
-    float4 res = gTex.SampleLevel(gSampler, texC, 0.f);
-#endif
-    return res;
-#endif
+                [unroll]
+                for (uint i = 0; i < SAMPLE_COUNT; i++)
+                {
+                    c += gTex.Load(crd, i);
+                }
 
-#else // SAMPLE_COUNT > 1
-
-#if COMPLEX_BLIT
-#error Complex blit not supported for sample count > 1
-#else // !COMPLEX_BLIT
-#if SRC_INT
-#error Blit for sample count > 1 not supported for integer source format
-#else
-    uint3 dims;
-    gTex.GetDimensions(dims.x, dims.y, dims.z);
-    uint2 crd = (uint2)(float2(dims.xy) * texC);
-    float4 c = float4(0, 0, 0, 0);
-
-    [unroll]
-    for (uint i = 0; i < SAMPLE_COUNT; i++)
-    {
-        c += gTex.Load(crd, i);
-    }
-
-    c /= SAMPLE_COUNT;
-    return c;
-#endif
-#endif
-
-#endif
+                c /= SAMPLE_COUNT;
+                return c;
+            #endif // SRC_INT
+        #endif // COMPLEX_BLIT
+    #endif // SAMPLE_COUNT
+#endif // CUBEMAP
 }

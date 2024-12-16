@@ -327,6 +327,8 @@ void RenderContext::blit(
     blitCtx.pPass->addDefine("COMPLEX_BLIT", complexBlit ? "1" : "0");
     blitCtx.pPass->addDefine("SRC_INT", isIntegerFormat(pSrcTexture->getFormat()) ? "1" : "0");
     blitCtx.pPass->addDefine("DST_INT", isIntegerFormat(pDstTexture->getFormat()) ? "1" : "0");
+    //[TJJ ADD] Support blit for cubemap
+    blitCtx.pPass->addDefine("CUBEMAP", pSrcTexture->getType() == Resource::Type::TextureCube ? "1" : "0");
 
     if (complexBlit)
     {
@@ -397,9 +399,29 @@ void RenderContext::blit(
     }
 
     ref<Texture> pSharedTex = pDstResource->asTexture();
-    blitCtx.pFbo->attachColorTarget(
-        pSharedTex, 0, pDst->getViewInfo().mostDetailedMip, pDst->getViewInfo().firstArraySlice, pDst->getViewInfo().arraySize
-    );
+    //[TJJ MOD] Support blit for cubemap
+    if (pSrcTexture->getType() == Resource::Type::TextureCube)
+    {
+        for (uint32_t i = 0; i < 6; i++)
+        {
+            blitCtx.pFbo->attachColorTarget(
+                pSharedTex, i,
+                pDst->getViewInfo().mostDetailedMip,
+                pDst->getViewInfo().firstArraySlice + i,
+                pDst->getViewInfo().arraySize
+            );
+        }
+    }
+    else
+    {
+        blitCtx.pFbo->attachColorTarget(
+            pSharedTex, 0,
+            pDst->getViewInfo().mostDetailedMip,
+            pDst->getViewInfo().firstArraySlice,
+            pDst->getViewInfo().arraySize
+        );
+    }
+
     blitCtx.pPass->getVars()->setSrv(blitCtx.texBindLoc, pSrc);
     blitCtx.pPass->getState()->setViewport(0, dstViewport);
     blitCtx.pPass->execute(this, blitCtx.pFbo, false);
