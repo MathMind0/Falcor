@@ -96,12 +96,14 @@ VsOut vsMain(float4 posS: POSITION, float2 texC: TEXCOORD)
             #if SRC_INT
                 #error Cubemap blit not supported for integer format
             #else
-                face0 = gTex.SampleLevel(gSampler, float3(texC, 0.f), 0.f);
-                face1 = gTex.SampleLevel(gSampler, float3(texC, 1.f), 0.f);
-                face2 = gTex.SampleLevel(gSampler, float3(texC, 2.f), 0.f);
-                face3 = gTex.SampleLevel(gSampler, float3(texC, 3.f), 0.f);
-                face4 = gTex.SampleLevel(gSampler, float3(texC, 4.f), 0.f);
-                face5 = gTex.SampleLevel(gSampler, float3(texC, 5.f), 0.f);
+                float u = texC.x * 2.0f - 1.0f;
+                float v = texC.y * 2.0f - 1.0f;
+                face0 = gTex.SampleLevel(gSampler, float3(1.f, -v, -u), 0.f);
+                face1 = gTex.SampleLevel(gSampler, float3(-1.f, -v, u), 0.f);
+                face2 = gTex.SampleLevel(gSampler, float3(u, 1.f, v), 0.f);
+                face3 = gTex.SampleLevel(gSampler, float3(u, -1.f, -v), 0.f);
+                face4 = gTex.SampleLevel(gSampler, float3(u, -v, 1.f), 0.f);
+                face5 = gTex.SampleLevel(gSampler, float3(u, v, -1.f), 0.f);
             #endif
         #endif
     #else // SAMPLE_COUNT > 1
