@@ -82,7 +82,8 @@ sceneBuilder.envMap = EnvMap('test_images/cubemap/sorsele3/sorsele3.dds')
 # Add lights
 light0 = DirectionalLight('Light0')
 light0.direction = float3(1, -1, -1)
-light0.intensity = float3(1, 1, 1)
+light0.intensity = float3(0.8, 0.8, 0.8)
+#light0.intensity = float3(0, 0, 0)
 #light0.angle = 0.1
 sceneBuilder.addLight(light0)
 

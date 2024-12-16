@@ -2,14 +2,18 @@
 # Material Count: 1
 
 newmtl matSpaceship
-Ns 96.078431
-Ka 1.000000 1.000000 1.000000
-Kd 0.640000 0.640000 0.640000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.000000
-d 1.000000
 illum 2
-map_Bump spaceship_normal.jpg
+#Ns 96.078431
+#Ka 1.000000 1.000000 1.000000
+#Kd 0.640000 0.640000 0.640000
+#Ks 0.500000 0.500000 0.500000
+#Ke 0.000000 0.000000 0.000000
+#Ni 1.000000
+#d 1.000000
+#map_objectspaceNormal spaceship_normal.jpg
 map_Kd spaceship_color.jpg
-map_Ks spaceship_roughness.jpg
+map_Pm spaceship_metalness.jpg
+map_Pr spaceship_roughness.jpg
+map_bump spaceship_normal.jpg
+map_Ke spaceship_emissive.jpg
+map_Ka spaceship_ao.jpg

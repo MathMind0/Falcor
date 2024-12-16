@@ -35,6 +35,10 @@ cbuffer BlitParamsCB
     float4 gCompTransformA;
 }
 
+#ifndef CUBEMAP
+#define CUBEMAP 0
+#endif
+
 //[TJJ MOD] Support blit for cubemap
 #if CUBEMAP
     #if SAMPLE_COUNT <= 1

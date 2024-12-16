@@ -301,7 +301,8 @@ namespace Falcor
         defines.add(mpMaterials->getDefines());
 
         //[TJJ MOD] Support using cubemap as Env Map.
-        defines.add("ENVMAP_USE_CUBEMAP", mpEnvMap->isCubeMap() ? "1" : "0");
+        defines.add("ENVMAP_USE_CUBEMAP",
+            mpEnvMap && mpEnvMap->isCubeMap() ? "1" : "0");
 
         mSceneDefines = defines;
     }
