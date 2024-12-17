@@ -37,9 +37,9 @@ static const float4 kClearColor(0.1f, 0.1f, 0.1f, 1);
 //static const std::string kDefaultScene = "Arcade/Arcade.pyscene";
 //static const std::string kDefaultScene = "Bistro/BistroExterior.pyscene";
 //static const std::string kDefaultScene = "Bistro/BistroInterior_Wine.pyscene";
-//static const std::string kDefaultScene = "SunTemple/SunTemple.pyscene";
+static const std::string kDefaultScene = "SunTemple/SunTemple.pyscene";
 //static const std::string kDefaultScene = "../scenes/bunny.pyscene";
-static const std::string kDefaultScene = "../scenes/spaceship.pyscene";
+//static const std::string kDefaultScene = "../scenes/spaceship.pyscene";
 
 HelloDXR::HelloDXR(const SampleAppConfig& config) : SampleApp(config) {}
 

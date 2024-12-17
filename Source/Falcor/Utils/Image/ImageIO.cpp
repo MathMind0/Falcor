@@ -593,9 +593,21 @@ ref<Texture> ImageIO::loadTextureFromDDS(ref<Device> pDevice, const std::filesys
     }
 
     //[TJJ MOD] Support auto-generate mipmaps.
-    if (generateMips)
+    if (data.mipLevels == 1 && generateMips)
     {
-        data.mipLevels = Texture::kMaxPossible;
+        ResourceBindFlags supported = pDevice->getFormatBindFlags(data.format);
+        if ((supported & ResourceBindFlags::RenderTarget) != ResourceBindFlags::RenderTarget)
+        {
+            logWarning(
+                "Cannot generate mipmaps for DDS image ({}), because its format ({}) does not support render target binding.",
+                path,
+                to_string(data.format)
+            );
+        }
+        else
+        {
+            data.mipLevels = Texture::kMaxPossible;
+        }
     }
 
     ref<Texture> pTex;
