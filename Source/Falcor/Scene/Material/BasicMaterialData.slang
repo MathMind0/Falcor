@@ -85,7 +85,12 @@ struct BasicMaterialData
     static constexpr uint kMinSamplerIDOffset = kEntryPointVolumePropertiesOffset + kEntryPointVolumePropertiesBits;
     static constexpr uint kMaxSamplerIDOffset = kMinSamplerIDOffset + MaterialHeader::kSamplerIDBits;
 
-    static constexpr uint kTotalFlagsBits = kMaxSamplerIDOffset + MaterialHeader::kSamplerIDBits;
+    //[TJJ ADD] Shading as skybox.
+    static constexpr uint kSkyBoxBits = 1;
+    static constexpr uint kSkyBoxOffset = kMaxSamplerIDOffset + MaterialHeader::kSamplerIDBits;
+    static constexpr uint kTotalFlagsBits = kSkyBoxOffset + kSkyBoxBits;
+
+    //static constexpr uint kTotalFlagsBits = kMaxSamplerIDOffset + MaterialHeader::kSamplerIDBits;
 
     /** Set shading model. This is only used for the standard material.
     */
@@ -115,6 +120,10 @@ struct BasicMaterialData
     */
     uint getDisplacementMinSamplerID() CONST_FUNCTION { return EXTRACT_BITS(MaterialHeader::kSamplerIDBits, kMinSamplerIDOffset, flags); }
     uint getDisplacementMaxSamplerID() CONST_FUNCTION { return EXTRACT_BITS(MaterialHeader::kSamplerIDBits, kMaxSamplerIDOffset, flags); }
+
+    //[TJJ ADD] Shading as skybox.
+    SETTER_DECL void setSkyBox(bool bSet) { flags = PACK_BITS(kSkyBoxBits, kSkyBoxOffset, flags, (uint)bSet); }
+    bool getSkyBox() CONST_FUNCTION { return bool(EXTRACT_BITS(kSkyBoxBits, kSkyBoxOffset, flags)); }
 };
 
 END_NAMESPACE_FALCOR

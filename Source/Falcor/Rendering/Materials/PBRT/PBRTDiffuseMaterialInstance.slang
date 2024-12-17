@@ -78,6 +78,8 @@ struct PBRTDiffuseMaterialInstance : MaterialInstanceBase, IMaterialInstance
 {
     ShadingFrame sf;            ///< Shading frame in world space.
     PBRTDiffuseBSDF bsdf;
+    //[TJJ ADD] Shading as skybox.
+    bool asSkyBox;
 
     float3 eval<S : ISampleGenerator>(const ShadingData sd, const float3 wo, inout S sg)
     {
@@ -135,6 +137,12 @@ struct PBRTDiffuseMaterialInstance : MaterialInstanceBase, IMaterialInstance
         p.guideNormal = sf.N;
         p.roughness = 1.0f;
         p.diffuseReflectionAlbedo = bsdf.albedo;
+
+        //[TJJ ADD] Shading as skybox.
+        if (asSkyBox)
+        {
+            p.flags |= (uint)BSDFProperties::Flags::AsSkyBox;
+        }
 
         return p;
     }

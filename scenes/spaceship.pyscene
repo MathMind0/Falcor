@@ -36,11 +36,8 @@ floor.loadTexture(MaterialTextureSlot.Normal, 'test_scenes/textures/checker_tile
 floor.textureTransform = Transform(scaling=float3(0.1, 0.1, 1))
 floor.roughness = 0.1
 
-sky = StandardMaterial('Sky')
-sky.baseColor = float4(0, 0, 0, 1)
-#sky.emissiveColor = float3(0.1, 0.1, 0.8)
-sky.roughness = 0
-#sky.loadTexture(MaterialTextureSlot.Emissive, 'test_scenes/envmaps/20050806-03_hd.hdr')
+sky = PBRTDiffuseMaterial('Sky')
+sky.asSkyBox = 1
 
 sphere = StandardMaterial('Sphere')
 sphere.baseColor = float4(0.944,0.776,0.373, 1.0)

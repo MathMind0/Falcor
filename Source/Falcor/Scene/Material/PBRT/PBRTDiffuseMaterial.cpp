@@ -90,5 +90,9 @@ namespace Falcor
             "device"_a,
             "name"_a = ""
         ); // PYTHONDEPRECATED
+
+
+        //[TJJ ADD] Shading as skybox.
+        material.def_property("asSkyBox", &PBRTDiffuseMaterial::getAsSkyBox, &PBRTDiffuseMaterial::setAsSkyBox);
     }
 }

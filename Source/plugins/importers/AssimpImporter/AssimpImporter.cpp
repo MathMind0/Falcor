@@ -455,7 +455,7 @@ void createTexCrdList(const aiVector3D* pAiTexCrd, uint32_t count, std::vector<f
     texCrds.resize(count);
     for (uint32_t i = 0; i < count; i++)
     {
-        FALCOR_ASSERT(pAiTexCrd[i].z == 0);
+        //FALCOR_ASSERT(pAiTexCrd[i].z == 0);
         texCrds[i] = float2(pAiTexCrd[i].x, pAiTexCrd[i].y);
     }
 }

@@ -56,7 +56,9 @@ struct PBRTDiffuseMaterial : MaterialBase, IMaterial
             adjustShadingNormal(sd, sf);
         }
 
-        PBRTDiffuseMaterialInstance mi = {sf, {baseColor}};
+        //[TJJ ADD] Shading as skybox.
+        //PBRTDiffuseMaterialInstance mi = {sf, {baseColor}};
+        PBRTDiffuseMaterialInstance mi = {sf, {baseColor}, data.getSkyBox()};
 
         return mi;
     }

@@ -47,6 +47,13 @@ float4 psMain(VSOut vsOut, uint triangleIndex: SV_PrimitiveID) : SV_TARGET
     let mi = gScene.materials.getMaterialInstance(sd, lod);
 
     float3 color = 0.f;
+
+    if (mi.getProperties(sd).asSkyBox)
+    {
+        color = gScene.envMap.eval(-viewDir, 0.f);
+        return float4(color, 1.f);
+    }
+
     color += mi.getProperties(sd).emission;
 
     TinyUniformSampleGenerator sg = TinyUniformSampleGenerator(asuint(vsOut.posH.xy), 0);

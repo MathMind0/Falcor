@@ -59,5 +59,9 @@ namespace Falcor
         const MaterialParamLayout& getParamLayout() const override;
         SerializedMaterialParams serializeParams() const override;
         void deserializeParams(const SerializedMaterialParams& params) override;
+
+        //[TJJ ADD] Shading as skybox.
+        bool getAsSkyBox() const { return mData.getSkyBox(); }
+        void setAsSkyBox(bool bSet) { mData.setSkyBox(bSet); }
     };
 }

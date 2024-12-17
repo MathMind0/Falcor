@@ -80,11 +80,19 @@ struct BSDFProperties
     enum Flags : uint
     {
         IsTransmissive = 0x1,
+        //[TJJ ADD] Shading as skybox.
+        AsSkyBox = 0x2,
     };
 
     property isTransmissive : bool
     {
         get { return (flags & (uint)Flags::IsTransmissive) != 0; }
+    }
+
+    //[TJJ ADD] Shading as skybox.
+    property asSkyBox : bool
+    {
+        get { return (flags & (uint)Flags::AsSkyBox) != 0; }
     }
 };
 
