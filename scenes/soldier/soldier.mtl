@@ -1,0 +1,150 @@
+#
+#
+#
+
+newmtl arm
+illum 2
+map_Kd textures/Arm/Arm_Base_Color.png
+map_Pm textures/Arm/Arm_Metallic.png
+map_Pr textures/Arm/Arm_Roughness.png
+map_bump textures/Arm/Arm_Normal.png
+map_Ke textures/Arm/Arm_Emissive.png
+map_Ka textures/Arm/Arm_Mixed_AO.png
+disp textures/Arm/Arm_Height.png
+
+newmtl parts
+illum 2
+map_Kd textures/Parts/Parts_Base_Color.png
+map_Pm textures/Parts/Parts_Metallic.png
+map_Pr textures/Parts/Parts_Roughness.png
+map_bump textures/Parts/Parts_Normal.png
+map_Ke textures/Parts/Parts_Emissive.png
+map_Ka textures/Parts/Parts_Mixed_AO.png
+disp textures/Parts/Parts_Height.png
+
+newmtl leg
+illum 2
+map_Kd textures/Leg/Leg_Base_Color.png
+map_Pm textures/Leg/Leg_Metallic.png
+map_Pr textures/Leg/Leg_Roughness.png
+map_bump textures/Leg/Leg_Normal.png
+map_Ke textures/Leg/Leg_Emissive.png
+map_Ka textures/Leg/Leg_Mixed_AO.png
+disp textures/Leg/Leg_Height.png
+
+newmtl head
+illum 2
+map_Kd textures/Head/Head_Base_Color.png
+map_Pm textures/Head/Head_Metallic.png
+map_Pr textures/Head/Head_Roughness.png
+map_bump textures/Head/Head_Normal.png
+map_Ke textures/Head/Head_Emissive.png
+map_Ka textures/Head/Head_Mixed_AO.png
+disp textures/Head/Head_Height.png
+
+newmtl glass
+illum 2
+map_Kd textures/Glass/Glass_Base_Color.png
+map_Pm textures/Glass/Glass_Metallic.png
+map_Pr textures/Glass/Glass_Roughness.png
+map_bump textures/Glass/Glass_Normal_OpenGL.png
+map_Ke textures/Glass/Glass_Emissive.png
+map_Ka textures/Glass/Glass_Mixed_AO.png
+map_Tr textures/Glass/Glass_Opacity.png
+disp textures/Glass/Glass_Height.png
+
+newmtl glass_broken
+illum 2
+map_Kd textures/Glass_broken/Glass_broken_Base_Color.png
+map_Pm textures/Glass_broken/Glass_broken_Metallic.png
+map_Pr textures/Glass_broken/Glass_broken_Roughness.png
+map_bump textures/Glass_broken/Glass_broken_Normal.png
+map_Ka textures/Glass_broken/Glass_broken_Mixed_AO.png
+map_Tr textures/Glass_broken/Glass_broken_Opacity.png
+disp textures/Glass_broken/Glass_broken_Height.png
+
+newmtl helmet
+illum 2
+map_Kd textures/Helmet/Helmet_Base_Color.png
+map_Pm textures/Helmet/Helmet_Metallic.png
+map_Pr textures/Helmet/Helmet_Roughness.png
+map_bump textures/Helmet/Helmet_Normal.png
+map_Ke textures/Helmet/Helmet_Emissive.png
+map_Ka textures/Helmet/Helmet_Mixed_AO.png
+disp textures/Helmet/Helmet_Height.png
+
+newmtl wire
+illum 2
+Ka 0.337300 0.337300 0.337300
+Kd 0.337300 0.337300 0.337300
+Ks 0.350000 0.350000 0.350000
+Ns 32.000000
+
+newmtl torso_armor
+illum 2
+map_Kd textures/Torso_armor/Torso_armor_Base_Color.png
+map_Pm textures/Torso_armor/Torso_armor_Metallic.png
+map_Pr textures/Torso_armor/Torso_armor_Roughness.png
+map_bump textures/Torso_armor/Torso_armor_Normal.png
+map_Ke textures/Torso_armor/Torso_armor_Emissive.png
+map_Ka textures/Torso_armor/Torso_armor_Mixed_AO.png
+disp textures/Torso_armor/Torso_armor_Height.png
+
+newmtl weapon_01
+illum 2
+map_Kd textures/Weapon/01_Base_Color.png
+map_Pm textures/Weapon/01_Metallic.png
+map_Pr textures/Weapon/01_Roughness.png
+map_bump textures/Weapon/01_Normal.png
+map_Ke textures/Weapon/01_Emissive.png
+map_Ka textures/Weapon/01_Mixed_AO.png
+disp textures/Weapon/01_Height.png
+
+newmtl weapon_02
+illum 2
+map_Kd textures/Weapon/02_Base_Color.png
+map_Pm textures/Weapon/02_Metallic.png
+map_Pr textures/Weapon/02_Roughness.png
+map_bump textures/Weapon/02_Normal.png
+map_Ke textures/Weapon/02_Emissive.png
+map_Ka textures/Weapon/02_Mixed_AO.png
+disp textures/Weapon/02_Height.png
+
+newmtl weapon_03
+illum 2
+map_Kd textures/Weapon/03_Base_Color.png
+map_Pm textures/Weapon/03_Metallic.png
+map_Pr textures/Weapon/03_Roughness.png
+map_bump textures/Weapon/03_Normal.png
+map_Ka textures/Weapon/03_Mixed_AO.png
+disp textures/Weapon/03_Height.png
+
+newmtl weapon_04
+illum 2
+map_Kd textures/Weapon/04_Base_Color.png
+map_Pm textures/Weapon/04_Metallic.png
+map_Pr textures/Weapon/04_Roughness.png
+map_bump textures/Weapon/04_Normal.png
+map_Ka textures/Weapon/04_Mixed_AO.png
+disp textures/Weapon/04_Height.png
+
+newmtl weapon_05
+illum 2
+map_Kd textures/Weapon/05_Base_Color.png
+map_Pm textures/Weapon/05_Metallic.png
+map_Pr textures/Weapon/05_Roughness.png
+map_bump textures/Weapon/05_Normal.png
+map_Ka textures/Weapon/05_Mixed_AO.png
+disp textures/Weapon/05_Height.png
+
+newmtl body
+illum 2
+map_Kd textures/Body/Body_Base_Color.png
+map_Pm textures/Body/Body_Metallic.png
+map_Pr textures/Body/Body_Roughness.png
+map_bump textures/Body/Body_Normal_OpenGL.png
+map_Ke textures/Body/Body_Emissive.png
+map_Ka textures/Body/Body_Mixed_AO.png
+disp textures/Body/Body_Height.png
+
+
